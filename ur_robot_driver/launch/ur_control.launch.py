@@ -50,6 +50,7 @@ def launch_setup(context, *args, **kwargs):
     # General arguments
     runtime_config_package = LaunchConfiguration("runtime_config_package")
     controllers_file = LaunchConfiguration("controllers_file")
+    ur_robotiq_description_package = LaunchConfiguration("ur_robotiq_description_package")
     description_package = LaunchConfiguration("description_package")
     description_file = LaunchConfiguration("description_file")
     tf_prefix = LaunchConfiguration("tf_prefix")
@@ -80,7 +81,7 @@ def launch_setup(context, *args, **kwargs):
         [FindPackageShare(description_package), "config", ur_type, "joint_limits.yaml"]
     )
     kinematics_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "default_kinematics.yaml"]
+        [FindPackageShare(ur_robotiq_description_package), "config", "ur_robotiq_calibration.yaml"]
     )
     physical_params = PathJoinSubstitution(
         [FindPackageShare(description_package), "config", ur_type, "physical_parameters.yaml"]
@@ -439,6 +440,16 @@ def generate_launch_description():
         is not set, it enables use of a custom description.",
         )
     )
+
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "ur_robotiq_description_package",
+            default_value="ur_robotiq_description",
+            description="Description package with robot URDF/XACRO files. Usually the argument \
+        is not set, it enables use of a custom description.",
+        )
+    )
+
     declared_arguments.append(
         DeclareLaunchArgument(
             "description_file",

@@ -62,6 +62,7 @@ class UrToolCommunication(Node):
         cfg_params.append("waitslave")
 
         cmd = ["socat"]
+        cmd.append("-dd")
         cmd.append(",".join(cfg_params))
         cmd.append(":".join(["tcp", robot_ip, str(tcp_port)]))
 
